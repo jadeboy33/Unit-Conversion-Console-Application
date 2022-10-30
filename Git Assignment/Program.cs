@@ -10,32 +10,46 @@ namespace Git_Assignment
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Please enter the unit you would like to convert. Type 'in' to convert inches to " +
-                "centimeters, and 'cm'  to convert centimeters to inches.");
+            string[] allowedInputs = new string[] { "in", "cm", "m", "ft" };
+
+            Console.WriteLine("Please enter the unit you would like to convert:");
+            printConversion("Input", "Conversion");
+            printConversion("in", "inches -> centimeters");
+            printConversion("cm", "centimeters -> inches");
+            printConversion("m", "meters -> feet");
+            printConversion("ft", "feet -> meters");
 
             String unitType = Console.ReadLine();
-            while (unitType != "inches" && unitType != "centimeters")
+            while (!allowedInputs.Contains(unitType))
             {
                 unitType = Console.ReadLine();
             }
 
-            Console.WriteLine("How many " + unitType + "s would you like to convert?");
+            Console.WriteLine("How many " + unitType + " would you like to convert?");
             String unitAmtStr = Console.ReadLine();
-            int unitAmtInt = Int32.Parse(unitAmtStr);
+            float unitAmtInt = Int32.Parse(unitAmtStr);
 
-            if (unitType == "in") //Converts inches to centimeters
-            {
-                double newUnit = 2.54 * unitAmtInt;
-                Console.WriteLine("You now have " + newUnit + "centimeters.");
+			switch (unitType)
+			{
+                case "in":
+                    Console.WriteLine("You now have " + (2.54 * unitAmtInt) +  " centimeters.");
+                    break;
+                case "cm":
+                    Console.WriteLine("You now have " + (unitAmtInt / 2.54) + " inches.");
+                    break;
+                case "m":
+                    Console.WriteLine($"You now have {unitAmtInt * 3.281} feet");
+                    break;
+                case "ft":
+                    Console.WriteLine($"You now have {unitAmtInt / 3.281} meters");
+                    break;
             }
+            Console.ReadLine();
+        }
 
-            else if (unitType == "cm") //Converts cm to inches
-            {
-                double newUnit = unitAmtInt / 2.54;
-                Console.WriteLine("You now have " + newUnit + "inches");
-
-            }
-
+		private static void printConversion(string input, string desc)
+		{
+            Console.WriteLine("{0, -10} {1, 20}", input, desc);
         }
     }
 }
